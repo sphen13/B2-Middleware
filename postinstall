@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # b2 access credentials.
-/usr/bin/defaults write com.github.sphen13.b2 account_id -string "B2_ACCOUNT_ID"
-/usr/bin/defaults write com.github.sphen13.b2 application_key -string "B2_APPLICATION_KEY"
+/usr/bin/defaults write /Library/Preferences/ManagedInstalls B2AccountID -string "ACCOUNT_ID"
+/usr/bin/defaults write /Library/Preferences/ManagedInstalls B2ApplicationKey -string "APPLICATION_KEY"
 
 # Seconds a b2 request is valid for - default is 1800 (30 min)
-#/usr/bin/defaults write com.github.sphen13.b2 valid_duration -int 3600
+#/usr/bin/defaults write /Library/Preferences/ManagedInstalls B2ValidDuration -int 3600

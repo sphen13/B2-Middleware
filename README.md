@@ -18,10 +18,9 @@ B2 Middleware uses a private Application Key to create and requests for private 
 3. Set B2 Middleware preferences for your Account ID, Application Key, and the resource expiration timeout in seconds. If unset expiration will default to 30 minutes.
 
     ```
-    sudo defaults write com.github.sphen13.b2 account_id -string "B2_ACCOUNT_ID"
-    sudo defaults write com.github.sphen13.b2 application_key -string "B2_APPLICATION_KEY"
-    sudo defaults write com.github.sphen13.b2 valid_duration -int 3600
-
+    sudo defaults write /Library/Preferences/ManagedInstalls B2AccountID -string "ACCOUNT_ID"
+    sudo defaults write /Library/Preferences/ManagedInstalls B2ApplicationKey -string "APPLICATION_KEY"
+    sudo defaults write /Library/Preferences/ManagedInstalls B2ValidDuration -int 3600
     ```
 4. Run munki and verify that B2 requests are being made.
 

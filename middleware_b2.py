@@ -18,11 +18,14 @@ import urllib2
 from string import maketrans
 from urlparse import urlparse
 from Foundation import CFPreferencesCopyAppValue
-from Foundation import CFPreferencesSetAppValue
+from Foundation import CFPreferencesSetValue
+from Foundation import CFPreferencesAppSynchronize
+from Foundation import kCFPreferencesAnyUser
+from Foundation import kCFPreferencesCurrentHost
 
-__version__ = '1.0'
+__version__ = '1.0.1'
 
-BUNDLE = 'com.github.sphen13.b2'
+BUNDLE = 'ManagedInstalls'
 
 def path_and_bucket(url):
     parse = urlparse(url)
@@ -39,7 +42,8 @@ def read_preference(key, bundle):
 
 def write_preference(key, value, bundle):
     """Write a preference key from a preference domain."""
-    CFPreferencesSetAppValue(key, value, bundle)
+    CFPreferencesSetValue(key, value, bundle, kCFPreferencesAnyUser, kCFPreferencesCurrentHost)
+    CFPreferencesAppSynchronize(bundle)
     return
 
 def authorize_b2(account_id, application_key):
@@ -102,17 +106,19 @@ def b2_url_builder(url):
     """Build our b2 url"""
 
     # read in our preference keys
-    account_id = read_preference('account_id', BUNDLE)
-    application_key = read_preference('application_key', BUNDLE)
-    valid_duration = int(read_preference('valid_duration', BUNDLE)) or 1800
-    expiration_date = read_preference('expiration_date', BUNDLE) or datetime.datetime.now()
-    download_url = read_preference('download_url', BUNDLE)
-    download_authorization_token = read_preference('download_authorization_token', BUNDLE)
+    account_id = read_preference('B2AccountID', BUNDLE)
+    application_key = read_preference('B2ApplicationKey', BUNDLE)
+    valid_duration = read_preference('B2ValidDuration', BUNDLE) or 1800
+    valid_duration = int(valid_duration)
+    expiration_date = read_preference('B2ExpirationDate', BUNDLE) or datetime.datetime.now()
+    download_url = read_preference('B2DownloadURL', BUNDLE)
+    download_authorization_token = read_preference('B2DownloadAuthorizationToken', BUNDLE)
 
     # parse url for b2 file path and bucket name
     bucket_name, path = path_and_bucket(url)
 
     b2_url = ""
+    HEADERS = {}
 
     # test if our prefs are set
     if account_id and application_key:
@@ -133,9 +139,9 @@ def b2_url_builder(url):
 
             if download_authorization_token:
                 # We just updated tokens - lets update our prefs
-                write_preference("expiration_date", expiration_date, BUNDLE)
-                write_preference("download_url", download_url, BUNDLE)
-                write_preference("download_authorization_token", download_authorization_token, BUNDLE)
+                write_preference("B2ExpirationDate", expiration_date, BUNDLE)
+                write_preference("B2DownloadURL", download_url, BUNDLE)
+                write_preference("B2DownloadAuthorizationToken", download_authorization_token, BUNDLE)
 
         if download_authorization_token:
             # We have a valid download_authorization_token at this point, lets continue processing URL.

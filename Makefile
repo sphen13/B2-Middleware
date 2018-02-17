@@ -1,7 +1,7 @@
 include /usr/local/share/luggage/luggage.make
 TITLE=B2Middleware
 REVERSE_DOMAIN=com.github.sphen13.b2middleware
-PACKAGE_VERSION=1.0
+PACKAGE_VERSION=1.0.1
 PAYLOAD=pack-middleware\
 	      pack-script-postinstall
 
