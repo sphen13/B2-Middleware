@@ -36,7 +36,15 @@ The included [luggage][3] makefile can be used to create an installer package fo
 3. ```make pkg``` and install.
 4. Set your ```SoftwareRepoURL``` to https://b2/BUCKET_NAME/PATH as stated in step 2 above.
 
+#### Syncing a local repo with B2
+One way you can sync your repo with B2 is with the [commandline tool][4]. For example:
+
+```
+b2 sync --excludeRegex '(.*\.DS_Store)|(.*\.git/.*)' --delete /path/to/munki/ b2://<B2_BUCKET_GOES_HERE>/
+  ```
+
 [0]: https://github.com/munki/munki
 [1]: https://www.backblaze.com/b2/cloud-storage.html
 [2]: https://help.backblaze.com/hc/en-us/articles/224991568-Where-can-I-find-my-Account-ID-and-Application-Key-
 [3]:https://github.com/unixorn/luggage
+[4]:https://www.backblaze.com/b2/docs/quick_command_line.html
