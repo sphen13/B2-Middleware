@@ -6,7 +6,7 @@ B2 Middleware uses a private Application Key to get authorization for private B2
 #### Requirements
 * [Backblaze B2][1] private bucket with your munki repo inside.
 * B2 [Account ID and Application Key][2].
- * As of version 1.1 we support [application keys with restricted permissions][5]. This would be the preferred method in which to use this middleware.
+    * As of version 1.1 we support [application keys with restricted permissions][5]. This would be the preferred method in which to use this middleware.
 
 #### Configure a managed client to access the CloudFront munki repo.
 1. Install ```middleware_b2.py``` to ```/usr/local/munki/```.
