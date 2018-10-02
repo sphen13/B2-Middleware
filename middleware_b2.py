@@ -23,7 +23,7 @@ from Foundation import CFPreferencesAppSynchronize
 from Foundation import kCFPreferencesAnyUser
 from Foundation import kCFPreferencesCurrentHost
 
-__version__ = '1.0.1'
+__version__ = '1.1'
 
 BUNDLE = 'ManagedInstalls'
 
@@ -59,12 +59,18 @@ def authorize_b2(account_id, application_key):
         'https://api.backblazeb2.com/b2api/v1/b2_authorize_account',
         headers = headers
         )
-    response = urllib2.urlopen(request)
+    try:
+        response = urllib2.urlopen(request)
+    except urllib2.HTTPError, e:
+        # we got an error - return None
+        print ('B2-Middleware: HTTPError ' + str(e.code))
+        return None, None, None, None
+
     response_data = json.loads(response.read())
     response.close()
 
     # return authorization info
-    return response_data['authorizationToken'], response_data['apiUrl'], response_data['downloadUrl']
+    return response_data['authorizationToken'], response_data['apiUrl'], response_data['downloadUrl'], response_data['allowed']['bucketId']
 
 def b2_bucketName_to_bucketId(account_id, account_token, api_url, bucket_name):
     """Return bucket_id for bucket_name"""
@@ -129,10 +135,15 @@ def b2_url_builder(url):
             expiration_date = datetime.datetime.now() + datetime.timedelta(seconds=valid_duration)
 
             # get b2 account authorization
-            account_token, api_url, download_url = authorize_b2(account_id, application_key)
+            account_token, api_url, download_url, bucket_id = authorize_b2(account_id, application_key)
+            if (account_token == None):
+                # stop trying to build a url - we dont have authorization
+                print "B2-Middleware: Not Authorized."
+                return url, None
 
-            # get the bucket id
-            bucket_id = b2_bucketName_to_bucketId(account_id, account_token, api_url, bucket_name)
+            if not (bucket_id):
+                # we are not restricted to a single bucket, lets get the id we want
+                bucket_id = b2_bucketName_to_bucketId(account_id, account_token, api_url, bucket_name)
 
             # get download authorization token
             download_authorization_token = b2_download_authorization(account_token, api_url, valid_duration, bucket_id)
@@ -160,6 +171,7 @@ def process_request_options(options):
 
     if '://b2/' in options['url']:
         options['url'], HEADERS = b2_url_builder(options['url'])
-        options['additional_headers'].update(HEADERS)
+        if HEADERS:
+            options['additional_headers'].update(HEADERS)
 
     return options
