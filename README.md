@@ -1,11 +1,12 @@
 ### What is B2 Middleware?
 B2 Middleware enables managed clients to securely access a [munki][0] repo from Backblaze's [B2][1] Cloud Storage. B2 offers aggressive pricing for both storage and access.
 
-B2 Middleware uses a private Application Key to create and requests for private B2 resources. Each request includes an expiration date after which the request is no longer valid.
+B2 Middleware uses a private Application Key to get authorization for private B2 resources. Each request includes an expiration date after which the request is no longer valid.
 
 #### Requirements
 * [Backblaze B2][1] private bucket with your munki repo inside.
 * B2 [Account ID and Application Key][2].
+ * As of version 1.1 we support [application keys with restricted permissions][5]. This would be the preferred method in which to use this middleware.
 
 #### Configure a managed client to access the CloudFront munki repo.
 1. Install ```middleware_b2.py``` to ```/usr/local/munki/```.
@@ -48,3 +49,4 @@ b2 sync --excludeRegex '(.*\.DS_Store)|(.*\.git/.*)' --delete /path/to/munki/ b2
 [2]: https://help.backblaze.com/hc/en-us/articles/224991568-Where-can-I-find-my-Account-ID-and-Application-Key-
 [3]:https://github.com/unixorn/luggage
 [4]:https://www.backblaze.com/b2/docs/quick_command_line.html
+[5]:https://www.backblaze.com/b2/docs/application_keys.html

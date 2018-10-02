@@ -63,7 +63,7 @@ def authorize_b2(account_id, application_key):
         response = urllib2.urlopen(request)
     except urllib2.HTTPError, e:
         # we got an error - return None
-        print ('HTTPError = ' + str(e.code))
+        print ('B2-Middleware: HTTPError ' + str(e.code))
         return None, None, None, None
 
     response_data = json.loads(response.read())
