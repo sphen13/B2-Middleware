@@ -23,7 +23,7 @@ from Foundation import CFPreferencesAppSynchronize
 from Foundation import kCFPreferencesAnyUser
 from Foundation import kCFPreferencesCurrentHost
 
-__version__ = '1.1'
+__version__ = '1.2'
 
 BUNDLE = 'ManagedInstalls'
 
@@ -64,6 +64,10 @@ def authorize_b2(account_id, application_key):
     except urllib2.HTTPError, e:
         # we got an error - return None
         print ('B2-Middleware: HTTPError ' + str(e.code))
+        return None, None, None, None
+    except urllib2.URLError, e:
+        # we got an error - return None
+        print ('B2-Middleware: URLError ' + str(e))
         return None, None, None, None
 
     response_data = json.loads(response.read())
