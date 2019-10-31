@@ -37,6 +37,7 @@ __version__ = '1.3'
 BUNDLE = 'ManagedInstalls'
 METHOD = 'GET'
 SERVICE = 's3'
+CACert = '/usr/local/munki/godaddy-root.pem'
 
 
 """
@@ -163,7 +164,7 @@ def authorize_b2(account_id, application_key):
         headers=headers
         )
     try:
-        response = urlopen(request)
+        response = urlopen(request, cafile=CACert)
     except HTTPError as e:
         # we got an error - return None
         print(('B2-Middleware: HTTPError ' + str(e.code)))
@@ -185,10 +186,10 @@ def b2_bucketName_to_bucketId(account_id, account_token, api_url, bucket_name):
     # build and submit api request to b2
     request = Request(
         '%s/b2api/v1/b2_list_buckets' % api_url,
-        json.dumps({'accountId' : account_id}),
+        json.dumps({'accountId' : account_id}).encode('utf-8'),
         headers={'Authorization': account_token}
         )
-    response = urlopen(request)
+    response = urlopen(request, cafile=CACert)
     response_data = json.loads(response.read())
     response.close()
 
@@ -205,10 +206,10 @@ def b2_download_authorization(account_token, api_url, valid_duration, bucket_id)
     # build and submit api request to b2
     request = Request(
         '%s/b2api/v1/b2_get_download_authorization' % api_url,
-        json.dumps({'bucketId' : bucket_id, 'fileNamePrefix' : "", 'validDurationInSeconds' : valid_duration}),
+        json.dumps({'bucketId' : bucket_id, 'fileNamePrefix' : "", 'validDurationInSeconds' : valid_duration}).encode('utf-8'),
         headers={'Authorization': account_token}
         )
-    response = urlopen(request)
+    response = urlopen(request, cafile=CACert)
     response_data = json.loads(response.read())
     response.close()
 
