@@ -7,9 +7,9 @@ PAYLOAD=pack-middleware\
 
 pack-middleware:
 		@sudo mkdir -p ${WORK_D}/usr/local/munki
-		@sudo ${CP} ./middleware_b2.py ${WORK_D}/usr/local/munki
+		@sudo ${CP} ./middleware_b2_s3.py ${WORK_D}/usr/local/munki
 		@sudo ${CP} ./godaddy-root.pem ${WORK_D}/usr/local/munki
-		@sudo chown root:wheel ${WORK_D}/usr/local/munki/middleware_b2.py
-		@sudo chmod 600 ${WORK_D}/usr/local/munki/middleware_b2.py
+		@sudo chown root:wheel ${WORK_D}/usr/local/munki/middleware_b2_s3.py
+		@sudo chmod 600 ${WORK_D}/usr/local/munki/middleware_b2_s3.py
 		@sudo chown root:wheel ${WORK_D}/usr/local/munki/godaddy-root.pem
 		@sudo chmod 600 ${WORK_D}/usr/local/munki/godaddy-root.pem
