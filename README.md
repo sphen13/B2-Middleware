@@ -10,20 +10,21 @@ B2 Middleware uses a private Application Key to get authorization for private B2
 
 #### Configure a managed client to access the CloudFront munki repo.
 1. Install ```middleware_b2.py``` to ```/usr/local/munki/```.
-2. Set the munki preference ```SoftwareRepoURL``` to the following format:
+2. Install ```godaddy-root.pem``` to ```/usr/local/munki/```. *This is required for munki embedded python3 compatibility*
+3. Set the munki preference ```SoftwareRepoURL``` to the following format:
 
     ```
     https://b2/BUCKET_NAME/PATH
     ```
     This middleware looks specifically for a URL starting with https://b2 to be triggered.  The first folder will be your bucket name.  If you have your munki repo within a subfolder on this bucket please also provide that as well.  The additional path is not needed if your repo is based at the root of your bucket.
-3. Set B2 Middleware preferences for your Account ID, Application Key, and the resource expiration timeout in seconds. If unset expiration will default to 30 minutes.
+4. Set B2 Middleware preferences for your Account ID, Application Key, and the resource expiration timeout in seconds. If unset expiration will default to 30 minutes.
 
     ```
     sudo defaults write /Library/Preferences/ManagedInstalls B2AccountID -string "ACCOUNT_ID"
     sudo defaults write /Library/Preferences/ManagedInstalls B2ApplicationKey -string "APPLICATION_KEY"
     sudo defaults write /Library/Preferences/ManagedInstalls B2ValidDuration -int 3600
     ```
-4. Run munki and verify that B2 requests are being made.
+5. Run munki and verify that B2 requests are being made.
 
     ```
     sudo managedsoftwareupdate --checkonly -vvv
