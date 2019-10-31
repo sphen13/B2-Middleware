@@ -24,7 +24,8 @@ from Foundation import kCFPreferencesAnyUser
 from Foundation import kCFPreferencesCurrentHost
 
 try:
-    from urllib2 import urlparse, urlopen, Request, HTTPError, URLError
+    from urlparse import urlparse
+    from urllib2 import urlopen, Request, HTTPError, URLError
 except ImportError:
     from urllib.parse import urlparse
     from urllib.request import urlopen, Request
@@ -153,7 +154,7 @@ def authorize_b2(account_id, application_key):
 
     # build auth headers
     id_and_key = account_id + ":" + application_key
-    basic_auth_string = 'Basic ' + base64.b64encode(id_and_key)
+    basic_auth_string = 'Basic '.encode('utf-8') + base64.b64encode(id_and_key.encode('utf-8'))
     headers = {'Authorization': basic_auth_string}
 
     # submit api request to b2
