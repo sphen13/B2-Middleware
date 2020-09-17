@@ -26,10 +26,10 @@ except ImportError:
     from urllib.request import urlopen, Request
     from urllib.error import HTTPError, URLError
 
-__version__ = '1.3'
+__version__ = '1.3.1'
 
 BUNDLE = 'ManagedInstalls'
-CACert = '/usr/local/munki/godaddy-root.pem'
+CACert = '/usr/local/munki/b2-root.pem'
 
 def path_and_bucket(url):
     parse = urlparse(url)
