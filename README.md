@@ -10,7 +10,7 @@ B2 Middleware uses a private Application Key to get authorization for private B2
 
 #### Configure a managed client to access the CloudFront munki repo.
 1. Install ```middleware_b2.py``` to ```/usr/local/munki/```.
-2. Install ```godaddy-root.pem``` to ```/usr/local/munki/```. *This is required for munki embedded python3 compatibility*
+2. Install ```b2-root.pem``` to ```/usr/local/munki/```. *This is required for munki embedded python3 compatibility*
 3. Set the munki preference ```SoftwareRepoURL``` to the following format:
 
     ```
@@ -42,7 +42,7 @@ The included [luggage][3] makefile can be used to create an installer package fo
 One way you can sync your repo with B2 is with the [commandline tool][4]. For example:
 
 ```
-b2 sync --excludeRegex '(.*\.DS_Store)|(.*\.git/.*)' --delete /path/to/munki/ b2://<B2_BUCKET_GOES_HERE>/
+b2 sync --excludeRegex '(.*\.DS_Store)|(.*\.git/.*)' --delete /path/to/munki/ https://b2/<B2_BUCKET_GOES_HERE>
   ```
 
 [0]: https://github.com/munki/munki
