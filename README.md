@@ -42,7 +42,7 @@ The included [luggage][3] makefile can be used to create an installer package fo
 One way you can sync your repo with B2 is with the [commandline tool][4]. For example:
 
 ```
-b2 sync --excludeRegex '(.*\.DS_Store)|(.*\.git/.*)' --delete /path/to/munki/ b2://<B2_BUCKET_GOES_HERE>/
+b2 sync --excludeRegex '(.*\.DS_Store)|(.*\.git/.*)' --delete /path/to/munki/ https://b2/<B2_BUCKET_GOES_HERE>
   ```
 
 [0]: https://github.com/munki/munki
